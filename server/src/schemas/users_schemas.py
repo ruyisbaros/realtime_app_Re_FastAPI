@@ -4,7 +4,10 @@ from typing import List, Optional
 
 
 class UserCreate(BaseModel):
+    full_name: str
     email: EmailStr
+    clerk_id: str
+    img_url: str
     password: str
     role: Optional[str] = None
 
@@ -15,6 +18,8 @@ class UserCreate(BaseModel):
 class UserOut(BaseModel):
     id: int
     email: EmailStr
+    clerk_id: str
+    img_url: str
     created_at: datetime
 
     class Config:
