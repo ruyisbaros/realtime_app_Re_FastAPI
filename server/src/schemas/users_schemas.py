@@ -1,10 +1,12 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
+from typing import List, Optional
 
 
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
+    role: Optional[str] = None
 
     def __getitem__(self, key):
         return self.__dict__[key]

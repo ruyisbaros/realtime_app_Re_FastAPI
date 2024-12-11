@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 import jwt
 from jwt.exceptions import InvalidTokenError
 
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 JWT_ALGORITHM = os.getenv("JWT_ALGORITHM")
@@ -40,7 +40,7 @@ def verify_access_token(token: str, credentials_exception):
         raise credentials_exception
 
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
+def get_current_user1(token: str):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -49,13 +49,14 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     return verify_access_token(token, credentials_exception)
 
 
-def get_current_user1(request: Request):
-    token = request.cookies.get("jwt_token")
+def get_current_user(token: str):
+    print("token in function", token)
+    # print(JWT_ALGORITHM, SECRET_KEY)
     if not token:
         raise HTTPException(status_code=401, detail="Not authenticated")
-
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=JWT_ALGORITHM)
+
         return payload
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="Token expired")
