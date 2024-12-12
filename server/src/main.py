@@ -1,5 +1,7 @@
-from .utils.database import get_db, engine
 from fastapi import FastAPI
+from .utils.oauth import verify_access_token
+
+from .utils.database import get_db, engine
 from fastapi.middleware.cors import CORSMiddleware
 from .utils import models
 from .routes import auth_routes, clerkauth_routes
@@ -21,6 +23,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 # SET ROUTES
 app.include_router(auth_routes.router)
