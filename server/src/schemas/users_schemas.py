@@ -3,20 +3,24 @@ from datetime import datetime
 from typing import List, Optional
 
 
-class UserCreate(BaseModel):
-    full_name: str
+class UserBase(BaseModel):
+    first_name: str
+    last_name: str
     email: EmailStr
-    clerk_id: str
     img_url: str
-    password: str
+    password: Optional[str]
     role: Optional[str] = None
 
+
+class UserCreate(UserBase):
     def __getitem__(self, key):
         return self.__dict__[key]
 
 
 class UserOut(BaseModel):
     id: int
+    first_name: str
+    last_name: str
     email: EmailStr
     clerk_id: str
     img_url: str
@@ -29,6 +33,14 @@ class UserOut(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
+
+class ClerkFallback(BaseModel):
+    clerk_id: str
+    first_name: str
+    last_name: str
+    email: EmailStr
+    img_url: str
 
 
 class Token(BaseModel):

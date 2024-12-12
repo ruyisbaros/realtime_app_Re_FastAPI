@@ -2,7 +2,10 @@ from .utils.database import get_db, engine
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .utils import models
-from .routes import user_routes
+from .routes import auth_routes, clerkauth_routes
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 app = FastAPI()
@@ -20,7 +23,8 @@ app.add_middleware(
 )
 
 # SET ROUTES
-app.include_router(user_routes.router)
-# app.include_router(hotel_routes.router)
-# app.include_router(booking_routes.router)
-# app.include_router(voteRoutes.router)
+app.include_router(auth_routes.router)
+app.include_router(clerkauth_routes.router)
+# app.include_router(song_routes.router)
+# app.include_router(album_routes.router)
+# app.include_router(stats_routes.router)
